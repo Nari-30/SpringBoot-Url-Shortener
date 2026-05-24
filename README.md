@@ -130,3 +130,56 @@ src/main/java/UrlShortener/
 ```text
 Authorization: Bearer <jwt_token>
 ```
+
+## Request Body Examples
+
+### Register User
+
+```json
+{
+  "username": "narendhra",
+  "email": "narendhra@gmail.com",
+  "password": "password123"
+}
+```
+
+---
+
+### Login User
+
+```json
+{
+  "username": "narendhra",
+  "password": "password123"
+}
+```
+
+---
+
+### Create Short URL
+
+```json
+{
+  "originalUrl": "https://github.com",
+  "customAlias": "github",
+  "expiryHours": 2
+}
+```
+
+---
+
+### Create URL Without Alias
+
+```json
+{
+  "originalUrl": "https://openai.com"
+}
+```
+
+---
+
+### Authorization Header
+
+```text
+Authorization: Bearer <jwt_token>
+```
