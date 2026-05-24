@@ -2,7 +2,7 @@ package UrlShortener.model;
 
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 public class UrlMapping {
 
@@ -18,6 +18,11 @@ public class UrlMapping {
     private String shortCode;
 
     private int clicks;
+    
+    @JsonFormat(
+    pattern =
+    "yyyy-MM-dd'T'HH:mm:ss"
+    )
     private LocalDateTime expiryTime;
 
     // User Ownership
