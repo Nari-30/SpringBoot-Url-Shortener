@@ -35,3 +35,38 @@ The backend for Shrinkr, a secure and modern URL shortener platform with JWT aut
 - **Custom Expiry Support:** Optional URL expiration in hours for temporary links
 
 - **Live Dashboard Statistics:** Displays total links, total clicks, and recent URLs dynamically
+
+## Architecture
+
+```text
+Browser / Frontend
+(HTML, CSS, JavaScript Dashboard UI)
+            |
+            v
+
+Spring Boot Backend
+(Java 21 + Spring Security + JWT)
+
+            |
+            |-- Authentication Layer
+            |      |-- User Registration
+            |      |-- User Login
+            |      +-- JWT Authorization
+            |
+            |-- URL Management
+            |      |-- URL Shortening
+            |      |-- Custom Aliases
+            |      |-- Expiry Timer
+            |      |-- QR Code Generation
+            |      +-- Redirect Handling
+            |
+            |-- Analytics System
+            |      |-- Click Tracking
+            |      |-- Live Dashboard Stats
+            |      +-- Recent URLs
+            |
+            +-- MySQL Database
+                   |-- users table
+                   |-- url_mapping table
+                   +-- Persistent Storage
+```
