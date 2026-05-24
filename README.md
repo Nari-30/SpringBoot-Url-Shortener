@@ -113,3 +113,20 @@ src/main/java/UrlShortener/
     │
     └── application.properties
 ```
+
+## API
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/api/auth/register` | none | Register a new user |
+| POST | `/api/auth/login` | none | Login and receive JWT token |
+| POST | `/api/shorten` | JWT Token | Create a shortened URL |
+| GET | `/r/{shortCode}` | none | Redirect to original URL |
+| GET | `/api/analytics` | JWT Token | Fetch user dashboard analytics |
+| DELETE | `/api/delete/{shortCode}` | JWT Token | Delete a shortened URL |
+
+### Authentication Header
+
+```text
+Authorization: Bearer <jwt_token>
+```
