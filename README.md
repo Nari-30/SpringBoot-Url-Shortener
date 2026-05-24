@@ -203,3 +203,122 @@ QR codes are dynamically generated for shortened URLs using QRCode.js for easy s
 
 ### Database Persistence
 All users, URLs, analytics, clicks, aliases, and expiry data are persistently stored using MySQL and Hibernate/JPA.
+
+## Running Locally
+
+Make sure you have the following installed:
+
+- Java 21
+- MySQL
+- Maven
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/shrinkr-backend.git
+
+cd shrinkr-backend
+```
+
+---
+
+### Create MySQL Database
+
+```sql
+CREATE DATABASE urlshortener;
+```
+
+---
+
+### Configure Database
+
+Update your `application.properties` file:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/urlshortener
+
+spring.datasource.username=root
+
+spring.datasource.password=your_password
+
+spring.jpa.hibernate.ddl-auto=update
+```
+
+---
+
+### Run the Application
+
+```bash
+mvn spring-boot:run
+```
+
+---
+
+### Access Application
+
+```text
+Frontend:
+http://localhost:8080
+
+Backend API:
+http://localhost:8080/api
+```
+
+---
+
+### Test API
+
+```bash
+curl -X POST http://localhost:8080/api/shorten \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <jwt_token>" \
+-d '{
+  "originalUrl":"https://github.com",
+  "customAlias":"github",
+  "expiryHours":2
+}'
+```
+
+## Environment Variables
+
+| Variable | Used For |
+|---|---|
+| `SPRING_DATASOURCE_URL` | MySQL database JDBC URL |
+| `SPRING_DATASOURCE_USERNAME` | MySQL database username |
+| `SPRING_DATASOURCE_PASSWORD` | MySQL database password |
+| `JWT_SECRET` | Secret key for JWT token generation |
+| `SERVER_PORT` | Spring Boot server port |
+| `SPRING_JPA_HIBERNATE_DDL_AUTO` | Hibernate database update strategy |
+| `RAILWAY_PUBLIC_DOMAIN` | Public Railway deployment domain |
+
+---
+
+## Local Storage Usage
+
+JWT authentication tokens are securely stored in browser localStorage after login.
+
+If localStorage is cleared:
+
+- User will be logged out
+- Dashboard access will require login again
+- Previously shortened URLs will still work normally
+- URL data remains safely stored in the MySQL database
+
+---
+
+## Deployment
+
+The application is deployed using Railway.
+
+```text
+Live URL:
+https://springboot-url-shortener-production.up.railway.app
+```
+
+---
+
+## Author
+
+**Sadi Narendhra**
+
+Java Full Stack Developer | Spring Boot & Web Development Enthusiast
