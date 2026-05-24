@@ -125,12 +125,6 @@ src/main/java/UrlShortener/
 | GET | `/api/analytics` | JWT Token | Fetch user dashboard analytics |
 | DELETE | `/api/delete/{shortCode}` | JWT Token | Delete a shortened URL |
 
-### Authentication Header
-
-```text
-Authorization: Bearer <jwt_token>
-```
-
 ## Request Body Examples
 
 ### Register User
