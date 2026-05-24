@@ -599,8 +599,20 @@ function updateExpiryTimers() {
         }
 
         // Correct Expiry Time
+        // Parse Local Time Correctly
+        const parts =
+            expiry.split(/[-T:]/);
+        
         const expiryDate =
-            new Date(expiry);
+            new Date(
+        
+                parts[0],       // year
+                parts[1] - 1,   // month
+                parts[2],       // day
+                parts[3],       // hour
+                parts[4],       // minute
+                parts[5]        // second
+            );
 
         const now =
             new Date();
