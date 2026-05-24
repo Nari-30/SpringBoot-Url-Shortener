@@ -570,7 +570,6 @@ function logoutUser() {
         "login.html";
 }
 
-
 // ===============================
 // Update Countdown Timers
 // ===============================
@@ -599,17 +598,16 @@ function updateExpiryTimers() {
             return;
         }
 
-        // Fix Spring Date Format
+        // Correct Expiry Time
         const expiryDate =
-            new Date(
-                expiry.replace("T", " ")
-            );
+            new Date(expiry);
 
         const now =
             new Date();
 
         const diff =
-            expiryDate - now;
+            expiryDate.getTime() -
+            now.getTime();
 
         // Expired
         if (diff <= 0) {
