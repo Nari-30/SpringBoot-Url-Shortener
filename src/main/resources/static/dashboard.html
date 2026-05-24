@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+<body>
+
+    <div class="background-glow"></div>
+
+    <div class="logout-container">
+
+        <button onclick="logoutUser()">
+            Logout
+        </button>
+
+    </div>
+
+    <div class="container">
+
+        <div class="logo">
+            shrinkr
+        </div>
+
+        <!-- URL Card -->
+        <div class="url-card">
+
+            <input
+                type="text"
+                id="originalUrl"
+                placeholder="Paste your long URL here...">
+
+            <input
+                type="text"
+                id="customAlias"
+                placeholder="Custom alias (optional)">
+
+            <input
+                type="number"
+                id="expiryHours"
+                placeholder="Expiry in hours (optional)">
+
+            <button onclick="shortenUrl()">
+                Shorten URL
+            </button>
+
+        </div>
+
+        <!-- Result -->
+        <div id="result">
+
+            <div class="success-header">
+                URL Shortened Successfully
+            </div>
+
+            <div class="result-box">
+
+                <a id="shortLink"
+                   target="_blank"></a>
+
+                <button id="copyBtn">
+                    Copy
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- QR Button -->
+        <button id="qrToggleBtn">
+
+            Show QR
+
+        </button>
+
+        <!-- QR Section -->
+        <div id="qrSection"
+            style="display:none;">
+
+            <p class="qr-title">
+                QR Code
+            </p>
+
+            <div id="qrcode"></div>
+
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <h2 id="totalLinks">
+                        0
+                    </h2>
+
+                    <p>Total Links</p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h2 id="totalClicks">
+                        0
+                    </h2>
+
+                    <p>Total Clicks</p>
+
+                </div>
+
+            </div>
+
+            <!-- Recent -->
+            <div class="recent-links">
+
+                <h3>
+                    Recent URLs
+                </h3>
+
+                <div id="recentList"></div>
+
+            </div>
+
+        </div>
+
+        <p id="errorMessage"></p>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
