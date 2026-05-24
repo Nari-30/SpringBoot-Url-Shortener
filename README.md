@@ -177,3 +177,29 @@ src/main/java/UrlShortener/
 ```text
 Authorization: Bearer <jwt_token>
 ```
+
+## Security & System Design
+
+### JWT Authentication
+Secure API authentication using JSON Web Tokens (JWT) with Spring Security. Protected endpoints require a valid JWT token in the Authorization header.
+
+### Private User Dashboards
+Each user can access and manage only their own shortened URLs. URL ownership is linked using database relationships between users and URL mappings.
+
+### Custom Alias Validation
+Custom aliases are globally unique to prevent redirect conflicts and duplicate short URLs.
+
+### Expiry System
+URLs can optionally expire after a custom number of hours. Expired links automatically stop redirecting and display as expired in the dashboard.
+
+### Secure Password Handling
+User passwords are securely stored using encrypted password hashing with Spring Security.
+
+### Real-Time Analytics
+Dashboard analytics update automatically using periodic frontend refresh intervals for live click tracking.
+
+### QR Code Integration
+QR codes are dynamically generated for shortened URLs using QRCode.js for easy sharing and mobile access.
+
+### Database Persistence
+All users, URLs, analytics, clicks, aliases, and expiry data are persistently stored using MySQL and Hibernate/JPA.
