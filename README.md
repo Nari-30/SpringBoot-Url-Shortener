@@ -70,3 +70,46 @@ Spring Boot Backend
                    |-- url_mapping table
                    +-- Persistent Storage
 ```
+
+## Project Structure
+
+```text
+src/main/java/UrlShortener/
+
+├── UrlShortenerApplication.java
+
+├── config/
+│   ├── SecurityConfig.java
+│   ├── JWTFilter.java
+│   └── JWTUtil.java
+
+├── controller/
+│   ├── AuthController.java
+│   └── UrlController.java
+
+├── model/
+│   ├── User.java
+│   ├── UrlMapping.java
+│   ├── UrlRequest.java
+│   ├── RegisterRequest.java
+│   └── LoginRequest.java
+
+├── repository/
+│   ├── UserRepository.java
+│   └── UrlRepository.java
+
+├── service/
+│   ├── AuthService.java
+│   └── UrlService.java
+
+└── resources/
+    ├── static/
+    │   ├── index.html
+    │   ├── login.html
+    │   ├── register.html
+    │   ├── dashboard.html
+    │   ├── style.css
+    │   └── script.js
+    │
+    └── application.properties
+```
