@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import java.time.ZoneId;
+
 import java.util.List;
 
 import java.util.Random;
@@ -117,13 +119,15 @@ public class UrlService {
 
         url.setClicks(0);
         // Expiry Time
+        // Expiry Time
         if(expiryHours != null){
-
-        url.setExpiryTime(
-
-                LocalDateTime.now()
-                .plusHours(expiryHours)
-        );
+        
+            url.setExpiryTime(
+        
+                LocalDateTime.now(
+                    ZoneId.of("Asia/Kolkata")
+                ).plusHours(expiryHours)
+            );
         }
         // Assign Owner
         url.setUser(user);
