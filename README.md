@@ -309,9 +309,9 @@ If localStorage is cleared:
 ## Deployment
 
 The application is deployed using Railway.
-```text
-**Live:** [springboot-url-shortener-production.up.railway.app](https://springboot-url-shortener-production.up.railway.app)
-```
+
+**Live URL:**  
+[https://springboot-url-shortener-production.up.railway.app](https://springboot-url-shortener-production.up.railway.app)
 ---
 
 ## Author
