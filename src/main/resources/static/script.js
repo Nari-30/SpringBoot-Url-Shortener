@@ -1,126 +1,123 @@
-// Backend API
+// ===============================
+// Railway Backend Base URL
+// ===============================
+
+const BASE_URL =
+    "https://springboot-url-shortener-production.up.railway.app";
+
+// ===============================
+// API URLs
+// ===============================
+
 const API_URL =
-    "http://localhost:8080/api/shorten";
+    `${BASE_URL}/api/shorten`;
 
 const ANALYTICS_URL =
-    "http://localhost:8080/api/analytics";
+    `${BASE_URL}/api/analytics`;
 
 const REGISTER_URL =
-    "http://localhost:8080/api/auth/register";
+    `${BASE_URL}/api/auth/register`;
 
 const LOGIN_URL =
-    "http://localhost:8080/api/auth/login";
+    `${BASE_URL}/api/auth/login`;
 
+
+// ===============================
 // Run On Page Load
+// ===============================
+
 window.onload = () => {
 
     // Dashboard Page
-    if(
-        window.location.pathname
-            .includes("dashboard.html")
-    ){
+    if (
+        window.location.pathname.includes("dashboard.html")
+    ) {
 
         checkDashboardAuth();
 
         loadAnalytics();
 
-        // Auto Refresh Analytics
         // Update Timers Every Second
         setInterval(() => {
 
             updateExpiryTimers();
 
-        },1000);
+        }, 1000);
 
         // Refresh Analytics Every 5 Seconds
         setInterval(() => {
 
             loadAnalytics();
 
-        },5000);
-            }
+        }, 5000);
+    }
 };
 
+
+// ===============================
 // Dashboard Protection
-function checkDashboardAuth(){
+// ===============================
+
+function checkDashboardAuth() {
 
     const token =
-        localStorage.getItem(
-            "jwtToken"
-        );
+        localStorage.getItem("jwtToken");
 
     // Redirect if not logged in
-    if(!token){
+    if (!token) {
 
         window.location.href =
             "login.html";
     }
 }
 
+
+// ===============================
 // Shorten URL
+// ===============================
+
 async function shortenUrl() {
 
     const originalUrlInput =
-        document.getElementById(
-            "originalUrl"
-        );
+        document.getElementById("originalUrl");
 
     const resultDiv =
-        document.getElementById(
-            "result"
-        );
+        document.getElementById("result");
 
     const shortLinkAnchor =
-        document.getElementById(
-            "shortLink"
-        );
+        document.getElementById("shortLink");
 
     const errorMessage =
-        document.getElementById(
-            "errorMessage"
-        );
+        document.getElementById("errorMessage");
 
     const copyBtn =
-        document.getElementById(
-            "copyBtn"
-        );
+        document.getElementById("copyBtn");
 
     const qrSection =
-        document.getElementById(
-            "qrSection"
-        );
+        document.getElementById("qrSection");
 
     const qrCodeContainer =
-        document.getElementById(
-            "qrcode"
-        );
+        document.getElementById("qrcode");
 
     const button =
-        document.querySelector(
-            ".url-card button"
-        );
+        document.querySelector(".url-card button");
 
     const originalUrl =
         originalUrlInput.value.trim();
 
     const customAlias =
-        document.getElementById(
-            "customAlias"
-        ).value.trim();
+        document.getElementById("customAlias").value.trim();
 
     const expiryHours =
-        document.getElementById(
-            "expiryHours"
-        ).value;
+        document.getElementById("expiryHours").value;
 
     // Reset
-    resultDiv.style.display =
-        "none";
+    resultDiv.style.display = "none";
 
     errorMessage.textContent = "";
 
     // Validation
-    if(!originalUrl){
+    if (!originalUrl) {
 
         errorMessage.textContent =
             "Please enter a URL.";
@@ -128,54 +125,44 @@ async function shortenUrl() {
         return;
     }
 
-    try{
+    try {
 
         // Loading
-        button.innerText =
-            "Shortening...";
+        button.innerText = "Shortening...";
 
         button.disabled = true;
 
         // API Request
         const response =
-            await fetch(
-                API_URL,
-                {
-                    method:"POST",
+            await fetch(API_URL, {
 
-                    headers:{
-                        "Content-Type":
-                            "application/json",
+                method: "POST",
 
-                        "Authorization":
-                            "Bearer " +
-                            localStorage.getItem(
-                                "jwtToken"
-                            )
-                    },
+                headers: {
+                    "Content-Type": "application/json",
 
-                    body:JSON.stringify({
+                    "Authorization":
+                        "Bearer " +
+                        localStorage.getItem("jwtToken")
+                },
 
-                        originalUrl:
-                            originalUrl,
+                body: JSON.stringify({
 
-                        customAlias:
-                            customAlias,
+                    originalUrl: originalUrl,
 
-                        expiryHours:
-                            expiryHours || null
-                    })
-                }
-            );
+                    customAlias: customAlias,
+
+                    expiryHours: expiryHours || null
+                })
+            });
 
         // Restore Button
-        button.innerText =
-            "Shorten URL";
+        button.innerText = "Shorten URL";
 
         button.disabled = false;
 
         // Error
-        if(!response.ok){
+        if (!response.ok) {
 
             errorMessage.textContent =
                 "Custom alias already exists";
@@ -189,8 +176,7 @@ async function shortenUrl() {
 
         // Short URL
         const shortUrl =
-            "http://localhost:8080/r/" +
-            data.shortCode;
+            `${BASE_URL}/r/${data.shortCode}`;
 
         // Result
         shortLinkAnchor.href =
@@ -202,7 +188,6 @@ async function shortenUrl() {
         resultDiv.style.display =
             "block";
 
-        // QR
         // Hide QR Initially
         qrSection.style.display =
             "none";
@@ -214,26 +199,24 @@ async function shortenUrl() {
         new QRCode(
             qrCodeContainer,
             {
-                text:shortUrl,
-                width:180,
-                height:180
+                text: shortUrl,
+                width: 180,
+                height: 180
             }
         );
+
         // QR Toggle Button
         const qrToggleBtn =
-            document.getElementById(
-                "qrToggleBtn"
-            );
+            document.getElementById("qrToggleBtn");
 
         qrToggleBtn.innerText =
             "Show QR";
 
         qrToggleBtn.onclick = () => {
 
-            if(
-                qrSection.style.display
-                === "none"
-            ){
+            if (
+                qrSection.style.display === "none"
+            ) {
 
                 qrSection.style.display =
                     "block";
@@ -241,7 +224,7 @@ async function shortenUrl() {
                 qrToggleBtn.innerText =
                     "Hide QR";
 
-            }else{
+            } else {
 
                 qrSection.style.display =
                     "none";
@@ -250,27 +233,25 @@ async function shortenUrl() {
                     "Show QR";
             }
         };
+
         // Copy Button
         copyBtn.onclick = () => {
 
-            navigator.clipboard
-                .writeText(shortUrl);
+            navigator.clipboard.writeText(shortUrl);
 
-            copyBtn.innerText =
-                "Copied!";
+            copyBtn.innerText = "Copied!";
 
             setTimeout(() => {
 
-                copyBtn.innerText =
-                    "Copy";
+                copyBtn.innerText = "Copy";
 
-            },2000);
+            }, 2000);
         };
 
         // Refresh Dashboard
         loadAnalytics();
 
-    }catch(error){
+    } catch (error) {
 
         console.error(error);
 
@@ -284,26 +265,26 @@ async function shortenUrl() {
     }
 }
 
-// Load Analytics
-async function loadAnalytics(){
 
-    try{
+// ===============================
+// Load Analytics
+// ===============================
+
+async function loadAnalytics() {
+
+    try {
 
         const response =
-            await fetch(
-                ANALYTICS_URL,
-                {
-                    headers:{
-                        "Authorization":
-                            "Bearer " +
-                            localStorage.getItem(
-                                "jwtToken"
-                            )
-                    }
-                }
-            );
+            await fetch(ANALYTICS_URL, {
 
-        if(!response.ok){
+                headers: {
+                    "Authorization":
+                        "Bearer " +
+                        localStorage.getItem("jwtToken")
+                }
+            });
+
+        if (!response.ok) {
             return;
         }
 
@@ -311,9 +292,7 @@ async function loadAnalytics(){
             await response.json();
 
         // Total Links
-        document.getElementById(
-            "totalLinks"
-        ).innerText =
+        document.getElementById("totalLinks").innerText =
             data.length;
 
         // Total Clicks
@@ -324,21 +303,17 @@ async function loadAnalytics(){
             totalClicks += url.clicks;
         });
 
-        document.getElementById(
-            "totalClicks"
-        ).innerText =
+        document.getElementById("totalClicks").innerText =
             totalClicks;
 
         // Recent List
         const recentList =
-            document.getElementById(
-                "recentList"
-            );
+            document.getElementById("recentList");
 
         recentList.innerHTML = "";
 
         // Empty
-        if(data.length === 0){
+        if (data.length === 0) {
 
             recentList.innerHTML = `
                 <p style="
@@ -357,29 +332,20 @@ async function loadAnalytics(){
         data.reverse().forEach(url => {
 
             const shortUrl =
-                "http://localhost:8080/r/" +
-                url.shortCode;
+                `${BASE_URL}/r/${url.shortCode}`;
 
             const recentItem =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
             recentItem.className =
                 "recent-item";
 
             recentItem.innerHTML = `
-                <a href="${shortUrl}"
-                   target="_blank">
-
-                   ${shortUrl}
-
+                <a href="${shortUrl}" target="_blank">
+                    ${shortUrl}
                 </a>
 
-                <div style="
-                    display:flex;
-                    gap:10px;
-                ">
+                <div style="display:flex; gap:10px;">
 
                     <div class="click-badge">
 
@@ -404,12 +370,10 @@ async function loadAnalytics(){
                 </div>
             `;
 
-            recentList.appendChild(
-                recentItem
-            );
+            recentList.appendChild(recentItem);
         });
 
-    }catch(error){
+    } catch (error) {
 
         console.error(
             "Analytics Error:",
@@ -418,31 +382,32 @@ async function loadAnalytics(){
     }
 }
 
-// Delete URL
-async function deleteUrl(
-    shortCode
-){
 
-    try{
+// ===============================
+// Delete URL
+// ===============================
+
+async function deleteUrl(shortCode) {
+
+    try {
 
         await fetch(
-            `http://localhost:8080/api/delete/${shortCode}`,
+            `${BASE_URL}/api/delete/${shortCode}`,
             {
-                method:"DELETE",
 
-                headers:{
+                method: "DELETE",
+
+                headers: {
                     "Authorization":
                         "Bearer " +
-                        localStorage.getItem(
-                            "jwtToken"
-                        )
+                        localStorage.getItem("jwtToken")
                 }
             }
         );
 
         loadAnalytics();
 
-    }catch(error){
+    } catch (error) {
 
         console.error(
             "Delete Error:",
@@ -451,9 +416,12 @@ async function deleteUrl(
     }
 }
 
+
+// ===============================
 // Register User
-// Register User
-async function registerUser(){
+// ===============================
+
+async function registerUser() {
 
     const username =
         document.getElementById(
@@ -470,20 +438,21 @@ async function registerUser(){
             "registerPassword"
         ).value;
 
-    try{
+    try {
 
         const response =
             await fetch(
                 REGISTER_URL,
                 {
-                    method:"POST",
 
-                    headers:{
+                    method: "POST",
+
+                    headers: {
                         "Content-Type":
                             "application/json"
                     },
 
-                    body:JSON.stringify({
+                    body: JSON.stringify({
                         username,
                         email,
                         password
@@ -491,34 +460,22 @@ async function registerUser(){
                 }
             );
 
-        // Backend Message
         const message =
             await response.text();
 
-        // Failed
-        if(!response.ok){
+        if (!response.ok) {
 
             alert(message);
-
-            // Redirect To Login
-            if(
-                message.includes("exists")
-            ){
-
-                window.location.href =
-                    "login.html";
-            }
 
             return;
         }
 
-        // Success
-        alert(message);
+        alert("Registration Successful");
 
         window.location.href =
             "login.html";
 
-    }catch(error){
+    } catch (error) {
 
         console.error(error);
 
@@ -527,8 +484,13 @@ async function registerUser(){
         );
     }
 }
+
+
+// ===============================
 // Login User
-async function loginUser(){
+// ===============================
+
+async function loginUser() {
 
     const username =
         document.getElementById(
@@ -540,27 +502,28 @@ async function loginUser(){
             "loginPassword"
         ).value;
 
-    try{
+    try {
 
         const response =
             await fetch(
                 LOGIN_URL,
                 {
-                    method:"POST",
 
-                    headers:{
+                    method: "POST",
+
+                    headers: {
                         "Content-Type":
                             "application/json"
                     },
 
-                    body:JSON.stringify({
+                    body: JSON.stringify({
                         username,
                         password
                     })
                 }
             );
 
-        if(!response.ok){
+        if (!response.ok) {
 
             alert(
                 "Invalid credentials"
@@ -582,14 +545,22 @@ async function loginUser(){
         window.location.href =
             "dashboard.html";
 
-    }catch(error){
+    } catch (error) {
 
         console.error(error);
+
+        alert(
+            "Login failed"
+        );
     }
 }
 
+
+// ===============================
 // Logout
-function logoutUser(){
+// ===============================
+
+function logoutUser() {
 
     localStorage.removeItem(
         "jwtToken"
@@ -599,9 +570,12 @@ function logoutUser(){
         "login.html";
 }
 
+
+// ===============================
 // Update Countdown Timers
-// Update Countdown Timers
-function updateExpiryTimers(){
+// ===============================
+
+function updateExpiryTimers() {
 
     const timers =
         document.querySelectorAll(
@@ -614,11 +588,10 @@ function updateExpiryTimers(){
             timer.dataset.expiry;
 
         // No Expiry
-        if(
-            !expiry
-            ||
+        if (
+            !expiry ||
             expiry === "null"
-        ){
+        ) {
 
             timer.innerHTML =
                 "No Expiry";
@@ -629,7 +602,7 @@ function updateExpiryTimers(){
         // Fix Spring Date Format
         const expiryDate =
             new Date(
-                expiry.replace("T"," ")
+                expiry.replace("T", " ")
             );
 
         const now =
@@ -639,7 +612,7 @@ function updateExpiryTimers(){
             expiryDate - now;
 
         // Expired
-        if(diff <= 0){
+        if (diff <= 0) {
 
             timer.innerHTML =
                 "Expired";
